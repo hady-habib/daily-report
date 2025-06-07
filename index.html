@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Report</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+  *, *:before, *:after {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    padding: 1em;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px; /* Increased base font size for better readability */
+    color: #b9b9b9;
+    background-color: #e3e3e3;
+    background: linear-gradient(135deg, #2a0845, #6441A5);
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2.5rem; /* 40px */
+    color: #fff;
+    margin: 30px 0 10px;
+  }
+
+  .date {
+    text-align: center;
+    color: #fff;
+    font-size: 1.2rem; /* Adjusted for better harmony */
+    margin-bottom: 20px;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 1em;
+    line-height: 1.4;
+    background-color: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    transition: 0.35s ease-in-out;
+    margin: 15px 0;
+    font-size: 1rem; /* Consistent font size */
+  }
+
+  input:focus {
+    outline: 0;
+    border-color: #bd8200;
+  }
+
+  #msform {
+    max-width: 900px;
+    background: #ffffff;
+    margin: 0 auto 30px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease;
+  }
+
+  #msform label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: 600;
+    font-size: 1rem; /* Adjusted for consistency */
+  }
+
+  .action-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #8802ad;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 10px;
+    font-size: 1rem; /* Consistent font size */
+  }
+
+  .action-button:hover {
+    background-color: #bc09ee;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  table {
+    width: 95%;
+    margin: 0 auto 40px;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  th, td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    color: #660182; /* Adjust as needed */
+    font-size: 1rem; /* Consistent font size */
+  }
+
+  th {
+    background-color: #6441A5;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  .loader {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  fieldset {
+    border: 2px solid #6441A5;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  legend {
+    font-size: 1.2em; /* Consistent with h1 and labels */
+    font-weight: bold;
+    padding: 0 10px;
+    color: #6441A5;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 768px) {
+    #msform, table {
+      width: 95%;
+    }
+
+    h1 {
+      font-size: 2rem; /* Adjusted for smaller screens */
+    }
+
+    th, td {
+      font-size: 0.85rem; /* Smaller font size for better fit */
+    }
+  }
+
+  .search-container {
+    max-width: 900px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 1em;
+    line-height: 1.4;
+    background-color: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    transition: 0.35s ease-in-out;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem; /* Consistent font size */
+    color: #333;
+  }
+
+  .search-box:focus {
+    outline: none;
+    border-color: #bd8200;
+    box-shadow: 0 0 5px rgba(189, 130, 0, 0.5);
+  }
+</style>
+</head>
+<body>
+
+  <h1>Daily Report Submission</h1>
+  <div class="date" id="currentDate"></div>
+
+  <div id="successMessage" style="display:none; text-align:center; color:#00c853; font-weight:600; margin-top:20px;margin-bottom:20px;">
+    ✅ Report submitted successfully!
+  </div>
+
+  <div id="loading" style="text-align:center; color:white;">
+    <span class="loader"></span> Loading data...
+  </div>
+
+
+
+
+  <form id="msform" onsubmit="return validateForm(event)">
+    <fieldset>
+       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;" >
+
+
+        <div><label for="date">Date:</label><input type="date" id="date" name="date" required /></div>
+        <div><label for="time">Time:</label><input type="time" id="time" name="time" required /></div>
+        <div>
+          <label for="mainZone">Main Zone:</label>
+          <select id="mainZone" name="mainZone" required>
+            <option value="">Select Main Zone</option>
+            <option value="E">E</option>
+            <option value="N">N</option>
+            <option value="W">W</option>
+            <option value="S">S</option>
+          </select>
+        </div>
+        <div>
+          <label for="subZone">Sub-Zone:</label>
+          <select id="subZone" name="subZone" required>
+            <option value="" disabled selected>Select Sub-Zone</option>
+          </select>
+        </div>
+        <div>
+          <label for="level">Level:</label>
+          <select id="level" name="level" required>
+            <option value="">Select Level</option>
+            <option value="B01">B01</option>
+            <option value="L00">L00</option>
+            <option value="L01">L01</option>
+            <option value="L02">L02</option>
+            <option value="L03">L03</option>
+            <option value="L04">L04</option>
+            <option value="L05">L05</option>
+          </select>
+        </div>
+        <div><label for="workFront">Work Front:</label><input type="text" id="workFront" name="workFront" readonly placeholder="Auto-generated"/></div>
+        <div><label for="ductInstalled">Duct Installed (kg):</label><input type="number" id="ductInstalled" name="ductInstalled" /></div>
+        <div><label for="drainageInstalled">Drainage Installed (LM):</label><input type="number" id="drainageInstalled" name="drainageInstalled" /></div>
+        <div><label for="waterSupply">Water Supply Installed (LM):</label><input type="number" id="waterSupply" name="waterSupply"/></div>
+        <div><label for="chilledWater">Chilled Water Installed (LM):</label><input type="number" id="chilledWater" name="chilledWater"/></div>
+      </div>
+      <div style="text-align: center; margin-top: 20px;">
+        <button type="submit" class="action-button">Submit Report</button>
+      </div>
+    </fieldset>
+  </form>
+
+  <div style="text-align: center; margin-bottom: 20px;">
+    <button onclick="exportTableToCSV()" class="action-button">Export CSV</button>
+<button onclick="exportFilteredTableToCSV()" class="action-button">Export Filtered CSV</button>
+    
+<div class="search-container">
+    
+  <input type="text" class="search-box" id="tableSearch" placeholder="Search..." onkeyup="filterTable()" >
+  </div>
+</div>
+
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Main Zone</th>
+        <th>Sub-Zone</th>
+        <th>Level</th>
+        <th>Work Front</th>
+        <th>Duct Installed (kg)</th>
+        <th>Drainage Installed (LM)</th>
+        <th>Water Supply Installed (LM)</th>
+        <th>Chilled Water Installed (LM)</th>
+      </tr>
+    </thead>
+<tbody id="table-body"></tbody>
+  </table>
+<div  style="text-align: center; margin-bottom: 20px;"> by: Abdelhady Habib</div>
+  <script>
+    const form = document.getElementById('msform');
+    const dateInput = document.getElementById('date');
+    const timeInput = document.getElementById('time');
+    const mainZoneSelect = document.getElementById('mainZone');
+    const subZoneSelect = document.getElementById('subZone');
+    const levelSelect = document.getElementById('level');
+    const workFrontInput = document.getElementById('workFront');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const dataTable = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+
+    const subZones = {
+      E: ["E01", "E02", "E03", "E04", "E05", "E06"],
+      N: ["N01", "N02", "N03", "N04", "N06", "N07", "N08", "N09", "N10"],
+      S: ["S01", "S02", "S03", "S04", "S06", "S07", "S08", "S09", "S10"],
+      W: ["W01", "W02", "W03", "W04", "W05", "W06"]
+    };
+    function filterTable() {
+  const input = document.getElementById("tableSearch");
+  const filter = input.value.toLowerCase();
+  const table = document.getElementById("table-body");
+  const rows = table.getElementsByTagName("tr");
+
+  for (let i = 0; i < rows.length; i++) {
+    let match = false;
+    const cells = rows[i].getElementsByTagName("td");
+    for (let j = 0; j < cells.length; j++) {
+      const cellText = cells[j].textContent || cells[j].innerText;
+      if (cellText.toLowerCase().indexOf(filter) > -1) {
+        match = true;
+        break;
+      }
+    }
+    rows[i].style.display = match ? "" : "none";
+  }
+}
+
+function formatCellValue(value) {
+  if (value instanceof Date) {
+    const isTimeOnly = value.getFullYear() === 1899 && value.getMonth() === 11 && value.getDate() === 30;
+    if (isTimeOnly) {
+      // Format time (e.g. 00:26)
+      return value.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else {
+      // Format full date (e.g. 2025-06-05)
+      return value.toISOString().split('T')[0];
+    }
+  }
+  return value; // return other values unchanged
+}
+    function updateDateTime() {
+      const now = new Date();
+      const date = now.toISOString().split('T')[0];
+      const time = now.toTimeString().split(' ')[0].slice(0, 5);
+      if (!dateInput.value) dateInput.value = date;
+      if (!timeInput.value) timeInput.value = time;
+      document.getElementById('currentDate').textContent = `Today: ${date} | ${time}`;
+    }
+
+    function validateForm(e) {
+      const requiredFields = ['date', 'time', 'mainZone', 'subZone', 'level'];
+      let isValid = true;
+      requiredFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value) {
+          el.style.border = '2px solid red';
+          isValid = false;
+        } else {
+          el.style.border = '';
+        }
+      });
+      if (!isValid) {
+        e.preventDefault();
+        alert("Please fill in all required fields.");
+      }
+      return isValid;
+    }
+
+    mainZoneSelect.addEventListener('change', () => {
+      const selected = mainZoneSelect.value;
+      subZoneSelect.innerHTML = '<option value="">Select Sub-Zone</option>';
+      if (subZones[selected]) {
+        subZones[selected].forEach(zone => {
+          const opt = document.createElement('option');
+          opt.value = zone;
+          opt.textContent = zone;
+          subZoneSelect.appendChild(opt);
+        });
+      }
+      workFrontInput.value = '';
+    });
+
+    function updateWorkFront() {
+      const sub = subZoneSelect.value;
+      const lvl = levelSelect.value;
+      workFrontInput.value = sub && lvl ? `${lvl}_${sub}` : '';
+    }
+
+    subZoneSelect.addEventListener('change', updateWorkFront);
+    levelSelect.addEventListener('change', updateWorkFront);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!validateForm(e)) return;
+
+      const formData = new FormData(form);
+      fetch('https://script.google.com/macros/s/AKfycbwgqG6zAFAeR_aL7Gffwps8BdSNnObZ2QpRAVnOnqLG6sApduHJGhb069UJRfXaoeOJag/exec', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.text())
+      .then(() => {
+        document.getElementById('successMessage').style.display = 'block';
+        setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000);
+        form.classList.add('fade-out');
+        setTimeout(() => {
+          form.reset();
+          workFrontInput.value = '';
+          updateDateTime();
+          form.classList.remove('fade-out');
+        }, 300);
+        loadSheetData();
+      })
+      .catch(error => console.error('Error:', error));
+    });
+
+    function exportTableToCSV() {
+      let csv = '';
+      const rows = document.querySelectorAll("table tr");
+      for (const row of rows) {
+        const cols = row.querySelectorAll("td, th");
+        const rowData = [...cols].map(col => `"${col.innerText}"`).join(",");
+        csv += rowData + "\n";
+      }
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "daily_report.csv";
+      a.click();
+    }
+function formatGoogleDate(value) {
+  // Check if it's a Google Date object
+  if (typeof value === 'object' && value !== null && Object.prototype.toString.call(value) === '[object Object]' && value.hasOwnProperty('v')) {
+    value = value.v;
+  }
+
+  // Handle JavaScript Date objects
+  if (value instanceof Date) {
+    const isTimeOnly = value.getFullYear() === 1899 && value.getMonth() === 11 && value.getDate() === 30;
+    if (isTimeOnly) {
+      return value.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else {
+      return value.toLocaleDateString();
+    }
+  }
+
+  // Try to parse "Date(yyyy,mm,dd,...)" format
+  if (typeof value === 'string' && value.startsWith("Date(")) {
+    const parts = value.match(/\d+/g).map(Number);
+    const isTimeOnly = parts[0] === 1899 && parts[1] === 11 && parts[2] === 30;
+
+    if (isTimeOnly) {
+      const date = new Date(0, 0, 0, parts[3], parts[4], parts[5] || 0);
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else {
+      const date = new Date(parts[0], parts[1], parts[2]);
+      return date.toLocaleDateString();
+    }
+  }
+
+  return value; // Return as-is if not a date/time
+}
+
+function loadSheetData() {
+  document.getElementById("loading").style.display = 'block';
+
+  const queryString = encodeURIComponent('SELECT A,B,C,D,E,F,G,H,I,J');
+  const spreadsheetId = '145EWbtHdvk1jGswXdo2r9V-nksysstxtN7HPjQcr16A';
+  const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?gid=0&tq=${queryString}`;
+
+  fetch(url)
+    .then(res => res.text())
+    .then(rep => {
+      const json = JSON.parse(rep.substring(47).slice(0, -2));
+      const rows = json.table.rows;
+
+      const dataTable = document.getElementById('table-body'); // Make sure this ID exists in your table
+      dataTable.innerHTML = '';
+
+      rows.forEach(row => {
+        const tr = document.createElement('tr');
+        row.c.forEach(cell => {
+          const td = document.createElement('td');
+          td.textContent = cell ? formatGoogleDate(cell.v) : '';
+          tr.appendChild(td);
+        });
+        dataTable.appendChild(tr);
+      });
+    })
+    .catch(err => console.error('Fetch error:', err))
+    .finally(() => {
+      document.getElementById("loading").style.display = 'none';
+      submitBtn.disabled = false;
+    });
+}
+
+window.addEventListener('load', () => {
+  loadSheetData();
+  updateDateTime();
+});
+
+
+    setInterval(updateDateTime, 1000);
+
+function exportFilteredTableToCSV() {
+  let csv = '';
+  
+  // Add table headers
+  const headers = document.querySelectorAll("#dataTable th");
+  const headerData = [...headers].map(th => `"${th.innerText}"`).join(",");
+  csv += headerData + "\n";
+
+  // Add filtered table rows
+  const rows = document.querySelectorAll("#table-body tr");
+  for (const row of rows) {
+    if (row.style.display !== "none") { // Only include visible rows
+      const cols = row.querySelectorAll("td");
+      const rowData = [...cols].map(col => `"${col.innerText}"`).join(",");
+      csv += rowData + "\n";
+    }
+  }
+  
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "filtered_daily_report.csv";
+  a.click();
+}
+  </script>
+</body>
+</html>
