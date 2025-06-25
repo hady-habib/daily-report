@@ -1,194 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daily Report</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
-  *, *:before, *:after {
-    box-sizing: border-box;
-  }
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+    }
 
-  html, body {
-    height: 100%;
-    padding: 1em;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    color: #b9b9b9;
-    background: linear-gradient(135deg, #2a0845, #6441A5);
-  }
+    html,
+    body {
+      height: 100%;
+      padding: 1em;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      color: #b9b9b9;
+      background: linear-gradient(135deg, #2a0845, #6441A5);
+    }
 
-  h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #fff;
-    margin: 30px 0 10px;
-  }
-
-  .date {
-    text-align: center;
-    color: #fff;
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
-
-  input, select, .search-box {
-    width: 100%;
-    padding: 1em;
-    line-height: 1.4;
-    background-color: #f9f9f9;
-    border: 1px solid #e5e5e5;
-    border-radius: 3px;
-    transition: 0.35s ease-in-out;
-    margin: 15px 0;
-    font-size: 1rem;
-  }
-
-  input:focus, .search-box:focus {
-    outline: 0;
-    border-color: #bd8200;
-    box-shadow: 0 0 5px rgba(189, 130, 0, 0.5);
-  }
-
-  #msform {
-    max-width: 900px;
-    background: #ffffff;
-    margin: 0 auto 30px;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  }
-
-  #msform label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  .action-button {
-    display: inline-block;
-    padding: 12px 25px;
-    background-color: #8802ad;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-    margin-top: 10px;
-    font-size: 1rem;
-  }
-
-  .action-button:hover {
-    background-color: #bc09ee;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  }
-
-  table {
-    width: 100%; /* Changed to 100% for better responsiveness */
-    margin: 0 auto 40px;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  }
-
-  th, td {
-    padding: 14px;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-    color: #660182;
-    font-size: 1rem;
-  }
-
-  th {
-    background-color: #6441A5;
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-
-  tr:hover {
-    background-color: #f1f1f1;
-  }
-
-  .loader {
-    display: inline-block;
-    width: 1.5rem;
-    height: 1.5rem;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  fieldset {
-    border: 2px solid #6441A5;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  legend {
-    font-size: 1.2em;
-    font-weight: bold;
-    padding: 0 10px;
-    color: #6441A5;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  @media (max-width: 768px) {
     h1 {
-      font-size: 2rem;
+      text-align: center;
+      font-size: 2.5rem;
+      color: #fff;
+      margin: 30px 0 10px;
     }
 
-    th, td {
-      font-size: 0.85rem;
-      padding: 10px; /* Reduced padding for smaller screens */
+    .date {
+      text-align: center;
+      color: #fff;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
     }
 
-    table {
-      width: 100%; /* Ensures full width on small screens */
-      display: block; /* Allows horizontal scrolling */
-      overflow-x: auto; /* Enables horizontal scrolling */
-      border: none; /* Removes borders for mobile */
+    input,
+    select,
+    .search-box {
+      width: 100%;
+      padding: 1em;
+      line-height: 1.4;
+      background-color: #f9f9f9;
+      border: 1px solid #e5e5e5;
+      border-radius: 3px;
+      transition: 0.35s ease-in-out;
+      margin: 15px 0;
+      font-size: 1rem;
+    }
+
+    input:focus,
+    .search-box:focus {
+      outline: 0;
+      border-color: #bd8200;
+      box-shadow: 0 0 5px rgba(189, 130, 0, 0.5);
     }
 
     #msform {
-      padding: 20px;
+      max-width: 900px;
+      background: #ffffff;
+      margin: 0 auto 30px;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     }
-  }
 
-  .search-container {
-    max-width: 900px;
-    margin: 20px auto;
-    display: flex;
-    align-items: center;
-  }
-</style>
+    #msform label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .action-button {
+      display: inline-block;
+      padding: 12px 25px;
+      background-color: #8802ad;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    .action-button:hover {
+      background-color: #bc09ee;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    table {
+      width: 100%;
+      /* Changed to 100% for better responsiveness */
+      margin: 0 auto 40px;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    th,
+    td {
+      padding: 14px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+      color: #660182;
+      font-size: 1rem;
+    }
+
+    th {
+      background-color: #6441A5;
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .loader {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    fieldset {
+      border: 2px solid #6441A5;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #f9f9f9;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    legend {
+      font-size: 1.2em;
+      font-weight: bold;
+      padding: 0 10px;
+      color: #6441A5;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      th,
+      td {
+        font-size: 0.85rem;
+        padding: 10px;
+        /* Reduced padding for smaller screens */
+      }
+
+      table {
+        width: 100%;
+        /* Ensures full width on small screens */
+        display: block;
+        /* Allows horizontal scrolling */
+        overflow-x: auto;
+        /* Enables horizontal scrolling */
+        border: none;
+        /* Removes borders for mobile */
+      }
+
+      #msform {
+        padding: 20px;
+      }
+    }
+
+    .search-container {
+      max-width: 900px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+    }
+  </style>
 </head>
+
 <body>
 
   <h1>Daily Report Submission</h1>
   <div class="date" id="currentDate"></div>
 
-  <div id="successMessage" style="display:none; text-align:center; color:#00c853; font-weight:600; margin-top:20px;margin-bottom:20px;">
+  <div id="successMessage"
+    style="display:none; text-align:center; color:#00c853; font-weight:600; margin-top:20px;margin-bottom:20px;">
     ✅ Report submitted successfully!
   </div>
 
@@ -200,8 +219,9 @@
 
 
   <form id="msform" onsubmit="return validateForm(event)">
+
     <fieldset>
-       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;" >
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
 
 
         <div><label for="date">Date:</label><input type="date" id="date" name="date" required /></div>
@@ -235,11 +255,20 @@
             <option value="L05">L05</option>
           </select>
         </div>
-        <div><label for="workFront">Work Front:</label><input type="text" id="workFront" name="workFront" readonly placeholder="Auto-generated"/></div>
-        <div><label for="ductInstalled">Duct Installed (kg):</label><input type="number" id="ductInstalled" name="ductInstalled" /></div>
-        <div><label for="drainageInstalled">Drainage Installed (LM):</label><input type="number" id="drainageInstalled" name="drainageInstalled" /></div>
-        <div><label for="waterSupply">Water Supply Installed (LM):</label><input type="number" id="waterSupply" name="waterSupply"/></div>
-        <div><label for="chilledWater">Chilled Water Installed (LM):</label><input type="number" id="chilledWater" name="chilledWater"/></div>
+        <div><label for="workFront">Work Front:</label><input type="text" id="workFront" name="workFront" readonly
+            placeholder="Auto-generated" /></div>
+        <div><label for="ductInstalled">Duct Installed (kg):</label><input type="number" id="ductInstalled"
+            name="ductInstalled" /></div>
+        <div><label for="drainageInstalled">Drainage Installed (LM):</label><input type="number" id="drainageInstalled"
+            name="drainageInstalled" /></div>
+        <div><label for="waterSupply">Water Supply Installed (LM):</label><input type="number" id="waterSupply"
+            name="waterSupply" /></div>
+        <div><label for="chilledWater">Chilled Water Installed (LM):</label><input type="number" id="chilledWater"
+            name="chilledWater" /></div>
+        <div>
+          <label for="cdpInstalled">CDP Installed (LM):</label>
+          <input type="number" id="cdpInstalled" name="cdpInstalled" />
+        </div>
       </div>
       <div style="text-align: center; margin-top: 20px;">
         <button type="submit" class="action-button">Submit Report</button>
@@ -249,13 +278,13 @@
 
   <div style="text-align: center; margin-bottom: 20px;">
     <button onclick="exportTableToCSV()" class="action-button">Export CSV</button>
-<button onclick="exportFilteredTableToCSV()" class="action-button">Export Filtered CSV</button>
-    
-<div class="search-container">
-    
-  <input type="text" class="search-box" id="tableSearch" placeholder="Search..." onkeyup="filterTable()" >
+    <button onclick="exportFilteredTableToCSV()" class="action-button">Export Filtered CSV</button>
+
+    <div class="search-container">
+
+      <input type="text" class="search-box" id="tableSearch" placeholder="Search..." onkeyup="filterTable()">
+    </div>
   </div>
-</div>
 
   <table id="dataTable">
     <thead>
@@ -270,11 +299,13 @@
         <th>Drainage Installed (LM)</th>
         <th>Water Supply Installed (LM)</th>
         <th>Chilled Water Installed (LM)</th>
+        <th>CDP Installed (LM)</th>
+
       </tr>
     </thead>
-<tbody id="table-body"></tbody>
+    <tbody id="table-body"></tbody>
   </table>
-<div  style="text-align: center; margin-bottom: 20px;"> by: Abdelhady Habib</div>
+  <div style="text-align: center; margin-bottom: 20px;"> by: Abdelhady Habib</div>
   <script>
     const form = document.getElementById('msform');
     const dateInput = document.getElementById('date');
@@ -293,38 +324,38 @@
       W: ["W01", "W02", "W03", "W04", "W05", "W06"]
     };
     function filterTable() {
-  const input = document.getElementById("tableSearch");
-  const filter = input.value.toLowerCase();
-  const table = document.getElementById("table-body");
-  const rows = table.getElementsByTagName("tr");
+      const input = document.getElementById("tableSearch");
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById("table-body");
+      const rows = table.getElementsByTagName("tr");
 
-  for (let i = 0; i < rows.length; i++) {
-    let match = false;
-    const cells = rows[i].getElementsByTagName("td");
-    for (let j = 0; j < cells.length; j++) {
-      const cellText = cells[j].textContent || cells[j].innerText;
-      if (cellText.toLowerCase().indexOf(filter) > -1) {
-        match = true;
-        break;
+      for (let i = 0; i < rows.length; i++) {
+        let match = false;
+        const cells = rows[i].getElementsByTagName("td");
+        for (let j = 0; j < cells.length; j++) {
+          const cellText = cells[j].textContent || cells[j].innerText;
+          if (cellText.toLowerCase().indexOf(filter) > -1) {
+            match = true;
+            break;
+          }
+        }
+        rows[i].style.display = match ? "" : "none";
       }
     }
-    rows[i].style.display = match ? "" : "none";
-  }
-}
 
-function formatCellValue(value) {
-  if (value instanceof Date) {
-    const isTimeOnly = value.getFullYear() === 1899 && value.getMonth() === 11 && value.getDate() === 30;
-    if (isTimeOnly) {
-      // Format time (e.g. 00:26)
-      return value.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    } else {
-      // Format full date (e.g. 2025-06-05)
-      return value.toISOString().split('T')[0];
+    function formatCellValue(value) {
+      if (value instanceof Date) {
+        const isTimeOnly = value.getFullYear() === 1899 && value.getMonth() === 11 && value.getDate() === 30;
+        if (isTimeOnly) {
+          // Format time (e.g. 00:26)
+          return value.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } else {
+          // Format full date (e.g. 2025-06-05)
+          return value.toISOString().split('T')[0];
+        }
+      }
+      return value; // return other values unchanged
     }
-  }
-  return value; // return other values unchanged
-}
     function updateDateTime() {
       const now = new Date();
       const date = now.toISOString().split('T')[0];
@@ -385,20 +416,20 @@ function formatCellValue(value) {
         method: 'POST',
         body: formData
       })
-      .then(res => res.text())
-      .then(() => {
-        document.getElementById('successMessage').style.display = 'block';
-        setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000);
-        form.classList.add('fade-out');
-        setTimeout(() => {
-          form.reset();
-          workFrontInput.value = '';
-          updateDateTime();
-          form.classList.remove('fade-out');
-        }, 300);
-        loadSheetData();
-      })
-      .catch(error => console.error('Error:', error));
+        .then(res => res.text())
+        .then(() => {
+          document.getElementById('successMessage').style.display = 'block';
+          setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000);
+          form.classList.add('fade-out');
+          setTimeout(() => {
+            form.reset();
+            workFrontInput.value = '';
+            updateDateTime();
+            form.classList.remove('fade-out');
+          }, 300);
+          loadSheetData();
+        })
+        .catch(error => console.error('Error:', error));
     });
 
     function exportTableToCSV() {
@@ -416,105 +447,106 @@ function formatCellValue(value) {
       a.download = "daily_report.csv";
       a.click();
     }
-function formatGoogleDate(value) {
-  // Check if it's a Google Date object
-  if (typeof value === 'object' && value !== null && Object.prototype.toString.call(value) === '[object Object]' && value.hasOwnProperty('v')) {
-    value = value.v;
-  }
+    function formatGoogleDate(value) {
+      // Check if it's a Google Date object
+      if (typeof value === 'object' && value !== null && Object.prototype.toString.call(value) === '[object Object]' && value.hasOwnProperty('v')) {
+        value = value.v;
+      }
 
-  // Handle JavaScript Date objects
-  if (value instanceof Date) {
-    const isTimeOnly = value.getFullYear() === 1899 && value.getMonth() === 11 && value.getDate() === 30;
-    if (isTimeOnly) {
-      return value.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    } else {
-      return value.toLocaleDateString();
+      // Handle JavaScript Date objects
+      if (value instanceof Date) {
+        const isTimeOnly = value.getFullYear() === 1899 && value.getMonth() === 11 && value.getDate() === 30;
+        if (isTimeOnly) {
+          return value.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } else {
+          return value.toLocaleDateString();
+        }
+      }
+
+      // Try to parse "Date(yyyy,mm,dd,...)" format
+      if (typeof value === 'string' && value.startsWith("Date(")) {
+        const parts = value.match(/\d+/g).map(Number);
+        const isTimeOnly = parts[0] === 1899 && parts[1] === 11 && parts[2] === 30;
+
+        if (isTimeOnly) {
+          const date = new Date(0, 0, 0, parts[3], parts[4], parts[5] || 0);
+          return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } else {
+          const date = new Date(parts[0], parts[1], parts[2]);
+          return date.toLocaleDateString();
+        }
+      }
+
+      return value; // Return as-is if not a date/time
     }
-  }
 
-  // Try to parse "Date(yyyy,mm,dd,...)" format
-  if (typeof value === 'string' && value.startsWith("Date(")) {
-    const parts = value.match(/\d+/g).map(Number);
-    const isTimeOnly = parts[0] === 1899 && parts[1] === 11 && parts[2] === 30;
+    function loadSheetData() {
+      document.getElementById("loading").style.display = 'block';
 
-    if (isTimeOnly) {
-      const date = new Date(0, 0, 0, parts[3], parts[4], parts[5] || 0);
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    } else {
-      const date = new Date(parts[0], parts[1], parts[2]);
-      return date.toLocaleDateString();
-    }
-  }
+      const queryString = encodeURIComponent('SELECT A,B,C,D,E,F,G,H,I,J,K');
+      const spreadsheetId = '145EWbtHdvk1jGswXdo2r9V-nksysstxtN7HPjQcr16A';
+      const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?gid=0&tq=${queryString}`;
 
-  return value; // Return as-is if not a date/time
-}
+      fetch(url)
+        .then(res => res.text())
+        .then(rep => {
+          const json = JSON.parse(rep.substring(47).slice(0, -2));
+          const rows = json.table.rows;
 
-function loadSheetData() {
-  document.getElementById("loading").style.display = 'block';
+          const dataTable = document.getElementById('table-body'); // Make sure this ID exists in your table
+          dataTable.innerHTML = '';
 
-  const queryString = encodeURIComponent('SELECT A,B,C,D,E,F,G,H,I,J');
-  const spreadsheetId = '145EWbtHdvk1jGswXdo2r9V-nksysstxtN7HPjQcr16A';
-  const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?gid=0&tq=${queryString}`;
-
-  fetch(url)
-    .then(res => res.text())
-    .then(rep => {
-      const json = JSON.parse(rep.substring(47).slice(0, -2));
-      const rows = json.table.rows;
-
-      const dataTable = document.getElementById('table-body'); // Make sure this ID exists in your table
-      dataTable.innerHTML = '';
-
-      rows.forEach(row => {
-        const tr = document.createElement('tr');
-        row.c.forEach(cell => {
-          const td = document.createElement('td');
-          td.textContent = cell ? formatGoogleDate(cell.v) : '';
-          tr.appendChild(td);
+          rows.forEach(row => {
+            const tr = document.createElement('tr');
+            row.c.forEach(cell => {
+              const td = document.createElement('td');
+              td.textContent = cell ? formatGoogleDate(cell.v) : '';
+              tr.appendChild(td);
+            });
+            dataTable.appendChild(tr);
+          });
+        })
+        .catch(err => console.error('Fetch error:', err))
+        .finally(() => {
+          document.getElementById("loading").style.display = 'none';
+          submitBtn.disabled = false;
         });
-        dataTable.appendChild(tr);
-      });
-    })
-    .catch(err => console.error('Fetch error:', err))
-    .finally(() => {
-      document.getElementById("loading").style.display = 'none';
-      submitBtn.disabled = false;
-    });
-}
+    }
 
-window.addEventListener('load', () => {
-  loadSheetData();
-  updateDateTime();
-});
+    window.addEventListener('load', () => {
+      loadSheetData();
+      updateDateTime();
+    });
 
 
     setInterval(updateDateTime, 1000);
 
-function exportFilteredTableToCSV() {
-  let csv = '';
-  
-  // Add table headers
-  const headers = document.querySelectorAll("#dataTable th");
-  const headerData = [...headers].map(th => `"${th.innerText}"`).join(",");
-  csv += headerData + "\n";
+    function exportFilteredTableToCSV() {
+      let csv = '';
 
-  // Add filtered table rows
-  const rows = document.querySelectorAll("#table-body tr");
-  for (const row of rows) {
-    if (row.style.display !== "none") { // Only include visible rows
-      const cols = row.querySelectorAll("td");
-      const rowData = [...cols].map(col => `"${col.innerText}"`).join(",");
-      csv += rowData + "\n";
+      // Add table headers
+      const headers = document.querySelectorAll("#dataTable th");
+      const headerData = [...headers].map(th => `"${th.innerText}"`).join(",");
+      csv += headerData + "\n";
+
+      // Add filtered table rows
+      const rows = document.querySelectorAll("#table-body tr");
+      for (const row of rows) {
+        if (row.style.display !== "none") { // Only include visible rows
+          const cols = row.querySelectorAll("td");
+          const rowData = [...cols].map(col => `"${col.innerText}"`).join(",");
+          csv += rowData + "\n";
+        }
+      }
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "filtered_daily_report.csv";
+      a.click();
     }
-  }
-  
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "filtered_daily_report.csv";
-  a.click();
-}
   </script>
 </body>
+
 </html>
