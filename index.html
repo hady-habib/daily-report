@@ -22,7 +22,7 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 16px;
       color: #b9b9b9;
-      background: linear-gradient(135deg, #2a0845, #6441A5);
+      background: linear-gradient(135deg, #03676e, #11959F);
     }
 
     h1 {
@@ -56,8 +56,8 @@
     input:focus,
     .search-box:focus {
       outline: 0;
-      border-color: #bd8200;
-      box-shadow: 0 0 5px rgba(189, 130, 0, 0.5);
+      border-color: #046268;
+      box-shadow: 0 0 5px rgba(0, 167, 189, 0.238);
     }
 
     #msform {
@@ -79,7 +79,7 @@
     .action-button {
       display: inline-block;
       padding: 12px 25px;
-      background-color: #8802ad;
+      background-color: #03676e;
       color: white;
       border: none;
       border-radius: 25px;
@@ -91,11 +91,12 @@
     }
 
     .action-button:hover {
-      background-color: #bc09ee;
+      background-color: #11959F;
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 
+    
     table {
       width: 100%;
       /* Changed to 100% for better responsiveness */
@@ -112,12 +113,12 @@
       padding: 14px;
       text-align: center;
       border-bottom: 1px solid #eee;
-      color: #660182;
+      color: #03676e;
       font-size: 1rem;
     }
 
     th {
-      background-color: #6441A5;
+      background-color: #03555b   ;
       color: white;
       font-weight: 600;
       text-transform: uppercase;
@@ -143,7 +144,7 @@
     }
 
     fieldset {
-      border: 2px solid #6441A5;
+      border: 2px solid #11959F;
       border-radius: 10px;
       padding: 20px;
       margin-bottom: 20px;
@@ -155,7 +156,7 @@
       font-size: 1.2em;
       font-weight: bold;
       padding: 0 10px;
-      color: #6441A5;
+      color: #03555b;
     }
 
     @keyframes spin {
@@ -202,7 +203,10 @@
 </head>
 
 <body>
-
+  <!-- Add your logo here -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="SharqawiLogo.png" alt="Logo" style="max-width: 200px; height: auto; box-shadow: rgba(0, 0, 0, 0.8) 10x 20px 40px, rgba(0, 0, 0, 0.6) 0px 70px 130px -30px, rgba(0, 0, 0, 0.4) 10px -30px 10px inset;" />
+  </div>
   <h1>Daily Report Submission</h1>
   <div class="date" id="currentDate"></div>
 
