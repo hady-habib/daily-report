@@ -436,21 +436,103 @@
         .catch(error => console.error('Error:', error));
     });
 
-    function exportTableToCSV() {
-      let csv = '';
-      const rows = document.querySelectorAll("table tr");
-      for (const row of rows) {
-        const cols = row.querySelectorAll("td, th");
-        const rowData = [...cols].map(col => `"${col.innerText}"`).join(",");
-        csv += rowData + "\n";
-      }
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "daily_report.csv";
-      a.click();
+
+    // Function to sort the table
+function sortTable(columnIndex) {
+  const table = document.getElementById("dataTable");
+  const tbody = table.getElementsByTagName("tbody")[0];
+  const rows = Array.from(tbody.rows);
+  
+  // Determine the current order (ascending or descending)
+  const currentIsAscending = tbody.dataset.sortOrder === 'asc';
+  
+  // Sort rows
+  rows.sort((a, b) => {
+    const aText = a.cells[columnIndex].innerText;
+    const bText = b.cells[columnIndex].innerText;
+
+    // Compare based on column type
+    if (columnIndex === 0) { // Date column
+      return new Date(bText) - new Date(aText); // Change to ascending if needed
+    } else if (!isNaN(aText) && !isNaN(bText)) {
+      return currentIsAscending ? aText - bText : bText - aText;
+    } else {
+      return currentIsAscending ? aText.localeCompare(bText) : bText.localeCompare(aText);
     }
+  });
+
+  // Clear tbody and append sorted rows
+  tbody.innerHTML = '';
+  rows.forEach(row => tbody.appendChild(row));
+
+  // Toggle sort order for next click
+  tbody.dataset.sortOrder = currentIsAscending ? 'desc' : 'asc';
+}
+
+// Add event listeners to table headers
+document.querySelectorAll("#dataTable th").forEach((th, index) => {
+  th.addEventListener("click", () => sortTable(index));
+});
+
+
+
+function formatDateToDDMMYYYY(date) {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+function exportTableToCSV() {
+  let csv = '';
+  const rows = document.querySelectorAll("table tr");
+  for (const row of rows) {
+    const cols = row.querySelectorAll("td, th");
+    const rowData = [...cols].map(col => `"${col.innerText}"`).join(",");
+    csv += rowData + "\n";
+  }
+
+  const date = formatDateToDDMMYYYY(new Date()); // Get current date in DD-MM-YYYY format
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `daily_report_${date}.csv`; // File name includes date
+  a.click();
+}
+
+function exportFilteredTableToCSV() {
+  let csv = '';
+
+  // Add table headers
+  const headers = document.querySelectorAll("#dataTable th");
+  const headerData = [...headers].map(th => `"${th.innerText}"`).join(",");
+  csv += headerData + "\n";
+
+  // Add filtered table rows
+  const rows = document.querySelectorAll("#table-body tr");
+  for (const row of rows) {
+    if (row.style.display !== "none") { // Only include visible rows
+      const cols = row.querySelectorAll("td");
+      const rowData = [...cols].map(col => `"${col.innerText}"`).join(",");
+      csv += rowData + "\n";
+    }
+  }
+
+  const date = formatDateToDDMMYYYY(new Date()); // Get current date in DD-MM-YYYY format
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `filtered_daily_report_${date}.csv`; // File name includes date
+  a.click();
+}
+
+
+
+
+
+
     function formatGoogleDate(value) {
       // Check if it's a Google Date object
       if (typeof value === 'object' && value !== null && Object.prototype.toString.call(value) === '[object Object]' && value.hasOwnProperty('v')) {
@@ -484,38 +566,60 @@
       return value; // Return as-is if not a date/time
     }
 
-    function loadSheetData() {
-      document.getElementById("loading").style.display = 'block';
+   function loadSheetData() {
+  document.getElementById("loading").style.display = 'block';
 
-      const queryString = encodeURIComponent('SELECT A,B,C,D,E,F,G,H,I,J,K');
-      const spreadsheetId = '145EWbtHdvk1jGswXdo2r9V-nksysstxtN7HPjQcr16A';
-      const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?gid=0&tq=${queryString}`;
+  const queryString = encodeURIComponent('SELECT A,B,C,D,E,F,G,H,I,J,K');
+  const spreadsheetId = '145EWbtHdvk1jGswXdo2r9V-nksysstxtN7HPjQcr16A';
+  const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?gid=0&tq=${queryString}`;
 
-      fetch(url)
-        .then(res => res.text())
-        .then(rep => {
-          const json = JSON.parse(rep.substring(47).slice(0, -2));
-          const rows = json.table.rows;
+  fetch(url)
+    .then(res => res.text())
+    .then(rep => {
+      const json = JSON.parse(rep.substring(47).slice(0, -2));
+      const rows = json.table.rows;
 
-          const dataTable = document.getElementById('table-body'); // Make sure this ID exists in your table
-          dataTable.innerHTML = '';
+      const dataTable = document.getElementById('table-body');
+      dataTable.innerHTML = '';
 
-          rows.forEach(row => {
-            const tr = document.createElement('tr');
-            row.c.forEach(cell => {
-              const td = document.createElement('td');
-              td.textContent = cell ? formatGoogleDate(cell.v) : '';
-              tr.appendChild(td);
-            });
-            dataTable.appendChild(tr);
-          });
-        })
-        .catch(err => console.error('Fetch error:', err))
-        .finally(() => {
-          document.getElementById("loading").style.display = 'none';
-          submitBtn.disabled = false;
+      // Create an array to store rows
+      const dataRows = [];
+
+      // Push existing rows to the array
+      rows.forEach(row => {
+        const rowData = [];
+        row.c.forEach(cell => {
+          rowData.push(cell ? formatGoogleDate(cell.v) : '');
         });
-    }
+        dataRows.push(rowData);
+      });
+
+      // Sort rows if needed (modify sorting criteria as required)
+      dataRows.sort((a, b) => new Date(b[0]) - new Date(a[0])); // Sort by date descending
+
+      // Prepend the new entry if it exists
+      const newEntry = [/* Your new entry data here */];
+      if (newEntry.length) {
+        dataRows.unshift(newEntry);
+      }
+
+      // Render the rows in the table
+      dataRows.forEach(rowData => {
+        const tr = document.createElement('tr');
+        rowData.forEach(cellData => {
+          const td = document.createElement('td');
+          td.textContent = cellData;
+          tr.appendChild(td);
+        });
+        dataTable.appendChild(tr);
+      });
+    })
+    .catch(err => console.error('Fetch error:', err))
+    .finally(() => {
+      document.getElementById("loading").style.display = 'none';
+      submitBtn.disabled = false;
+    });
+}
 
     window.addEventListener('load', () => {
       loadSheetData();
@@ -525,31 +629,10 @@
 
     setInterval(updateDateTime, 1000);
 
-    function exportFilteredTableToCSV() {
-      let csv = '';
 
-      // Add table headers
-      const headers = document.querySelectorAll("#dataTable th");
-      const headerData = [...headers].map(th => `"${th.innerText}"`).join(",");
-      csv += headerData + "\n";
-
-      // Add filtered table rows
-      const rows = document.querySelectorAll("#table-body tr");
-      for (const row of rows) {
-        if (row.style.display !== "none") { // Only include visible rows
-          const cols = row.querySelectorAll("td");
-          const rowData = [...cols].map(col => `"${col.innerText}"`).join(",");
-          csv += rowData + "\n";
-        }
-      }
-
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "filtered_daily_report.csv";
-      a.click();
-    }
+  
+  
+  
   </script>
 </body>
 
